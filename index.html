@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simona | Product-Minded Data Engineer</title>
+  <meta name="description" content="Product-minded data engineer with experience across Meta, fintech, and analytics. Trusted pipelines, decision-grade metrics, and practical AI tooling.">
+  <link rel="icon" type="image/png" sizes="256x256" href="./favicon.png">
+  <link rel="apple-touch-icon" href="./favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #ffffff;
+      --bg-2:      #f5f4f0;
+      --ink:       #141412;
+      --ink-2:     #5a5a52;
+      --ink-3:     #a0a098;
+      --accent:    #e8390d;
+      --accent-2:  #0040c8;
+      --line:      #e2e1da;
+      --tag-bg:    #eeede8;
+      --shadow:    0 1px 3px rgba(20,20,18,0.06), 0 8px 24px rgba(20,20,18,0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    ::selection { background: color-mix(in srgb, var(--accent) 15%, white); }
+
+    /* ── NAV ─────────────────────────────────────────── */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      min-height: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .wordmark {
+      text-decoration: none;
+      font-family: "Fraunces", serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .wordmark strong {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 0.1rem;
+    }
+
+    .nav a {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-2);
+      text-decoration: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 3px;
+      transition: background 140ms, color 140ms;
+    }
+
+    .nav a:hover { color: var(--ink); background: var(--bg-2); }
+
+    .status {
+      margin-left: 0.5rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.38rem 0.7rem;
+      border-radius: 3px;
+      background: color-mix(in srgb, #22c55e 10%, white);
+      color: #15803d;
+      border: 1px solid color-mix(in srgb, #22c55e 28%, white);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .status::before {
+      content: "";
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: blink 2.2s ease-in-out infinite;
+    }
+
+    /* ── SHELL ───────────────────────────────────────── */
+
+    .shell {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+
+    .hero {
+      padding: clamp(3.5rem, 8vw, 7.5rem) 0 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: clamp(2rem, 4vw, 5rem);
+      align-items: end;
+    }
+
+    .hero-eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hero-eyebrow::before {
+      content: "//";
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-family: "Fraunces", serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 6.5vw, 5.75rem);
+      line-height: 0.97;
+      letter-spacing: -0.04em;
+      max-width: 14ch;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      margin-top: 1.75rem;
+      font-size: 1rem;
+      line-height: 1.72;
+      color: var(--ink-2);
+      max-width: 36rem;
+    }
+
+    .hero-sub strong { color: var(--ink); font-weight: 600; }
+
+    .hero-actions {
+      margin-top: 2rem;
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-decoration: none;
+      padding: 0.78rem 1.15rem;
+      border-radius: 3px;
+      transition: transform 170ms cubic-bezier(0.16,1,0.3,1), background 170ms, border-color 170ms, color 170ms;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary { background: var(--ink); color: #fff; }
+    .btn-primary:hover { background: color-mix(in srgb, var(--ink) 82%, var(--accent)); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+    }
+    .btn-ghost:hover { border-color: var(--ink); }
+
+    /* ── HERO PHOTO ──────────────────────────────────── */
+
+    .hero-photo {
+      align-self: end;
+      position: relative;
+      padding: 0 0.5rem 0 0;
+    }
+
+    .hero-photo-wrap {
+      position: relative;
+      width: clamp(150px, 17vw, 230px);
+    }
+
+    .hero-photo-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--accent);
+      transform: translate(9px, 9px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-photo-wrap img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      aspect-ratio: 4 / 4.5;
+      object-fit: contain;
+      object-position: center;
+      background: var(--bg-2);
+      display: block;
+    }
+
+    /* ── STATS BAR ───────────────────────────────────── */
+
+    .stats-bar {
+      margin-top: clamp(2.5rem, 5vw, 4rem);
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .stat-item {
+      flex: 1;
+      min-width: 0;
+      padding: 0 2rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      letter-spacing: -0.05em;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-3);
+      margin-top: 0.3rem;
+    }
+
+    /* ── SECTION COMMON ──────────────────────────────── */
+
+    .section-wrap {
+      padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-wrap:last-of-type { border-bottom: none; }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1.2rem;
+      margin-bottom: clamp(2rem, 4vw, 3.25rem);
+    }
+
+    .section-num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--ink-3);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+
+    h2 {
+      font-family: "Fraunces", serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      letter-spacing: -0.04em;
+      line-height: 0.97;
+    }
+
+    h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
+
+    .section-intro {
+      color: var(--ink-2);
+      font-size: 0.94rem;
+      line-height: 1.7;
+      max-width: 40rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── TAGS ────────────────────────────────────────── */
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.26rem 0.55rem;
+      background: var(--tag-bg);
+      border-radius: 2px;
+      color: var(--ink-2);
+    }
+
+    /* ── PROJECTS ────────────────────────────────────── */
+
+    .project-list { display: grid; gap: 0; }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 1.8rem 1fr auto;
+      gap: 1.25rem 2rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+      transition: background 150ms;
+      border-radius: 2px;
+    }
+
+    .project-row:last-child { border-bottom: none; }
+
+    .project-row:hover {
+      background: var(--bg-2);
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      margin: 0 -0.75rem;
+    }
+
+    .project-n {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      color: var(--ink-3);
+      padding-top: 0.45rem;
+      font-weight: 500;
+    }
+
+    .project-body h3 {
+      font-family: "Fraunces", serif;
+      font-weight: 400;
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-body p {
+      font-size: 0.91rem;
+      line-height: 1.65;
+      color: var(--ink-2);
+      max-width: 38rem;
+    }
+
+    .project-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      align-items: flex-end;
+      padding-top: 0.3rem;
+    }
+
+    .proj-link {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .proj-link:hover { text-decoration: underline; }
+
+    /* ── EXPERIENCE ──────────────────────────────────── */
+
+    .exp-list { display: grid; gap: 2px; }
+
+    .exp-card {
+      padding: 2rem;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      transition: border-color 180ms, transform 180ms;
+      cursor: default;
+    }
+
+    .exp-card:hover {
+      border-color: var(--ink-3);
+      transform: translateX(4px);
+    }
+
+    .exp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .exp-company {
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .exp-role {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-top: 0.3rem;
+    }
+
+    .exp-date {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      color: var(--accent-2);
+      white-space: nowrap;
+      padding-top: 0.4rem;
+    }
+
+    .exp-summary {
+      font-size: 0.91rem;
+      line-height: 1.7;
+      color: var(--ink-2);
+      margin-bottom: 0.85rem;
+      max-width: 46rem;
+    }
+
+    .impact-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+
+    .impact-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.28rem 0.6rem;
+      background: color-mix(in srgb, var(--accent) 7%, white);
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, white);
+      color: var(--accent);
+      border-radius: 2px;
+    }
+
+    .achievements {
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.4rem;
+      color: var(--ink-2);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .achievements li::marker { color: var(--accent); }
+    .achievements strong { color: var(--ink); font-weight: 600; }
+
+    /* ── COMMUNITY ───────────────────────────────────── */
+
+    .community-card {
+      padding: 2.25rem;
+      border: 1.5px solid var(--accent);
+      position: relative;
+      max-width: 54rem;
+    }
+
+    .community-label {
+      position: absolute;
+      top: -0.65rem;
+      left: 1.25rem;
+      background: var(--bg);
+      padding: 0 0.45rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-lede {
+      color: var(--ink-2);
+      font-size: 0.94rem;
+      line-height: 1.72;
+    }
+
+    .open-to-list {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 1.5rem;
+    }
+
+    .open-to-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.91rem;
+      color: var(--ink-2);
+    }
+
+    .open-to-item::before {
+      content: "→";
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      font-family: "Fraunces", serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.1rem;
+      transition: opacity 150ms;
+    }
+
+    .contact-email:hover { opacity: 0.75; }
+
+    .contact-links-row {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-links-row a {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--ink-2);
+      text-decoration: none;
+    }
+
+    .contact-links-row a:hover { color: var(--accent); }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+
+    footer {
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .footer-left {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .footer-links a {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--ink-3);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── REVEAL ANIMATION ────────────────────────────── */
+
+    html.js .reveal.is-pending {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-photo { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .stat-item { padding: 0 1.25rem; }
+      .stat-item:first-child { padding-left: 0; }
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.65rem 1.25rem;
+        gap: 0.35rem;
+        min-height: auto;
+      }
+
+      .nav { flex-wrap: wrap; }
+
+      .shell { padding: 0 1.25rem; }
+
+      .project-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .project-n { display: none; }
+
+      .project-links {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .exp-top { flex-direction: column; gap: 0.5rem; }
+
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+
+      .stats-bar { gap: 0; }
+      .stat-item { min-width: 7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="wordmark" href="#top">simona<strong>.</strong></a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#experience">experience</a>
+        <a href="#projects">projects</a>
+        <a href="#data-projects">data projects</a>
+        <a href="#data-projects">data projects</a>
+        <a href="#community">community</a>
+        <a href="#contact">contact</a>
+        <div class="status">open to roles</div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="shell">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-copy reveal">
+          <p class="hero-eyebrow">product-minded data engineer &nbsp;·&nbsp; amsterdam</p>
+          <h1>I build trusted <em>data systems</em> teams rely on.</h1>
+          <p class="hero-sub">
+         Seven years building production pipelines, warehouse models, and decision-driving metrics at <strong>Meta</strong>, a fintech startup, and a Big Four firm.
+My background in journalism sharpened my ability to communicate clearly and tell the story behind the data, not just make it run.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">view projects →</a>
+            <a class="btn btn-ghost" href="mailto:sdai817@gmail.com?subject=Resume%20request">request resume →</a>
+          </div>
+        </div>
+
+        <aside class="hero-photo reveal" style="transition-delay: 100ms;" aria-hidden="true">
+          <div class="hero-photo-wrap">
+            <img
+              src="./ChatGPT Image Mar 20, 2026, 04_34_26 PM.png"
+              alt="Illustrated portrait of Simona"
+            >
+          </div>
+        </aside>
+      </div>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar reveal" style="transition-delay: 140ms;">
+        <div class="stat-item">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">years in data</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">companies</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">1B+</div>
+          <div class="stat-label">events / day at peak</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">20k</div>
+          <div class="stat-label">community members</div>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section-wrap">
+        <div class="section-head reveal">
+          <span class="section-num">01</span>
+          <h2>I like building <em>useful tools</em>.</h2>
+        </div>
+        <p class="section-intro reveal" style="transition-delay: 50ms;">
+          Most started from a messy workflow or repeated annoyance. Built to make something clearer, faster, or easier to use — often with AI as part of the coding process.
+        </p>
+
+        <div class="project-list">
+          <div class="project-row reveal">
+            <span class="project-n">01</span>
+            <div class="project-body">
+              <h3>offertracker</h3>
+              <p>Turns messy recruiter email threads into a structured job pipeline. Built with OAuth ingestion, LLM extraction, and SQLite so hiring stages and offer details stop living in inbox chaos.</p>
+              <div class="tags">
+                <span class="tag">python</span>
+                <span class="tag">llms</span>
+                <span class="tag">oauth</span>
+                <span class="tag">sqlite</span>
+              </div>
+            </div>
+            <div class="project-links">
+              <a class="proj-link" href="https://offertracker.simona.life" target="_blank" rel="noreferrer">live app ↗</a>
+              <a class="proj-link" href="https://github.com/bluebluegrass/offertrack" target="_blank" rel="noreferrer">github ↗</a>
+            </div>
+          </div>
+
+          <div class="project-row reveal" style="transition-delay: 60ms;">
+            <span class="project-n">02</span>
+            <div class="project-body">
+              <h3>FastCut</h3>
+              <p>Transcript-first video and audio editor. Generate a transcript, select words to cut or restore, preview the edited result, and export the final file with ffmpeg.</p>
+              <div class="tags">
+                <span class="tag">transcript editing</span>
+                <span class="tag">qwen / asr</span>
+                <span class="tag">ffmpeg</span>
+              </div>
+            </div>
+            <div class="project-links">
+              <a class="proj-link" href="https://github.com/bluebluegrass/FastCut" target="_blank" rel="noreferrer">github ↗</a>
+            </div>
+          </div>
+
+          <div class="project-row reveal" style="transition-delay: 120ms;">
+            <span class="project-n">03</span>
+            <div class="project-body">
+              <h3>LocalPix</h3>
+              <p>Offline semantic search for personal media libraries using OpenCLIP embeddings. Built for privacy-first retrieval without sending files to a hosted service.</p>
+              <div class="tags">
+                <span class="tag">clip</span>
+                <span class="tag">vector search</span>
+                <span class="tag">privacy</span>
+              </div>
+            </div>
+            <div class="project-links">
+              <a class="proj-link" href="https://github.com/bluebluegrass/find_photo_for_me" target="_blank" rel="noreferrer">github ↗</a>
+            </div>
+          </div>
+
+          <div class="project-row reveal" style="transition-delay: 180ms;">
+            <span class="project-n">04</span>
+            <div class="project-body">
+              <h3>Podcast RSS Feed to Transcript</h3>
+              <p>Automates podcast intake from RSS feed to transcript, with local download, transcription, and optional speaker diarization for repeatable audio workflows.</p>
+              <div class="tags">
+                <span class="tag">rss</span>
+                <span class="tag">whisper</span>
+                <span class="tag">automation</span>
+              </div>
+            </div>
+            <div class="project-links">
+              <a class="proj-link" href="https://github.com/bluebluegrass/podcast-rss-to-transcript" target="_blank" rel="noreferrer">github ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DATA PROJECTS -->
+      <section id="data-projects" class="section-wrap">
+        <div class="section-head reveal">
+          <span class="section-num">02</span>
+          <h2>I turn messy research into <em>data products</em>.</h2>
+        </div>
+        <p class="section-intro reveal" style="transition-delay: 50ms;">
+          I like making policy, messy source material, and hard-to-scan information explorable through interactive views that people can actually use.
+        </p>
+
+        <div class="project-list">
+          <div class="project-row reveal">
+            <span class="project-n">01</span>
+            <div class="project-body">
+              <h3>Birthright Citizenship Map</h3>
+              <p>Interactive global map of birthright citizenship regimes, with country-by-country summaries, legal context, recent policy changes, and a review queue for ongoing verification.</p>
+              <div class="tags">
+                <span class="tag">data visualization</span>
+                <span class="tag">comparative policy</span>
+                <span class="tag">interactive map</span>
+              </div>
+            </div>
+            <div class="project-links">
+              <a class="proj-link" href="/birthright/">live page ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience" class="section-wrap">
+        <div class="section-head reveal">
+          <span class="section-num">03</span>
+          <h2>I have shipped <em>decision-grade</em> data.</h2>
+        </div>
+        <p class="section-intro reveal" style="transition-delay: 50ms;">
+          My background is in product-facing data work: critical pipelines, reliable reporting, and metrics leaders can use with confidence.
+        </p>
+
+        <div class="exp-list">
+          <article class="exp-card reveal">
+            <div class="exp-top">
+              <div>
+                <div class="exp-company">Meta</div>
+                <div class="exp-role">Senior Data Engineer, Commerce Data Systems</div>
+              </div>
+              <div class="exp-date">2018 – 2022</div>
+            </div>
+            <p class="exp-summary">Owned production data pipelines for global commerce and payments, supporting checkout workflows that processed billions of events.</p>
+            <div class="impact-row">
+              <span class="impact-tag">billions of events / day</span>
+              <span class="impact-tag">latency ↓ 50%</span>
+            </div>
+            <ul class="achievements">
+              <li>Led an infrastructure migration that reduced pipeline latency by <strong>50%</strong> on critical commerce workflows.</li>
+              <li>Defined logging and instrumentation standards adopted across global engineering teams, improving reliability and debugging.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">python</span>
+              <span class="tag">logging frameworks</span>
+              <span class="tag">distributed systems</span>
+            </div>
+          </article>
+
+          <article class="exp-card reveal" style="transition-delay: 70ms;">
+            <div class="exp-top">
+              <div>
+                <div class="exp-company">Smartpay</div>
+                <div class="exp-role">Data Analytics Engineer, Financial Core</div>
+              </div>
+              <div class="exp-date">2025</div>
+            </div>
+            <p class="exp-summary">Built the first analytics foundation for a BNPL fintech, giving leadership daily visibility into cash flow, liabilities, receivables, and payment performance.</p>
+            <div class="impact-row">
+              <span class="impact-tag">0 → 1 data foundation</span>
+              <span class="impact-tag">daily reporting</span>
+            </div>
+            <ul class="achievements">
+              <li>Turned manual monthly reporting into automated daily outputs for finance and leadership teams.</li>
+              <li>Built the company's first automated <strong>cash-flow analytics</strong> system and unified checkout and payment data into a production reporting layer.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">sql</span>
+              <span class="tag">python</span>
+              <span class="tag">unified data modeling</span>
+            </div>
+          </article>
+
+          <article class="exp-card reveal" style="transition-delay: 140ms;">
+            <div class="exp-top">
+              <div>
+                <div class="exp-company">Deloitte</div>
+                <div class="exp-role">Data Analyst, Fraud Analytics</div>
+              </div>
+              <div class="exp-date">Earlier</div>
+            </div>
+            <p class="exp-summary">Analyzed high-volume transaction data for fraud detection and investigation prioritization across enterprise clients.</p>
+            <div class="impact-row">
+              <span class="impact-tag">1M+ transactions / day</span>
+              <span class="impact-tag">processing time ↓ 50%</span>
+            </div>
+            <ul class="achievements">
+              <li>Worked across <strong>1M+ daily transactions</strong> for large enterprise clients.</li>
+              <li>Reduced fraud-analysis processing time by <strong>50%</strong> through cleaner analysis and validation workflows.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">sql</span>
+              <span class="tag">r</span>
+              <span class="tag">tableau</span>
+              <span class="tag">data validation</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- COMMUNITY -->
+      <section id="community" class="section-wrap">
+        <div class="section-head reveal">
+          <span class="section-num">04</span>
+          <h2>I build communities with <em>staying power</em>.</h2>
+        </div>
+
+        <article class="community-card reveal">
+          <span class="community-label">volunteer · ongoing</span>
+          <div class="exp-top">
+            <div>
+              <div class="exp-company">Women Overseas</div>
+              <div class="exp-role">Co-founder</div>
+            </div>
+            <div class="exp-date">Oct 2020 – Now</div>
+          </div>
+          <p class="exp-summary">Founded a community for Chinese-speaking women abroad, now with <strong style="color: var(--ink);">20,000+ members</strong>.</p>
+          <ul class="achievements">
+            <li>Organized and hosted <strong>50+ workshops and community events</strong>, including bi-weekly online panels and fireside chats.</li>
+            <li>Scaled membership from 0 to <strong>5,000+</strong> in six months and expanded the community globally.</li>
+          </ul>
+          <a class="proj-link" href="https://www.womenoverseas.com/" target="_blank" rel="noreferrer">website ↗</a>
+        </article>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section-wrap">
+        <div class="section-head reveal">
+          <span class="section-num">05</span>
+          <h2>Let's <em>talk</em>.</h2>
+        </div>
+
+        <div class="contact-grid reveal">
+          <div>
+            <p class="contact-lede">Based in Amsterdam. Most interested in data engineering, analytics engineering, and product data roles where data is close to product, finance, and decision-making.</p>
+            <div class="open-to-list">
+              <div class="open-to-item">Data Engineering</div>
+              <div class="open-to-item">Analytics Engineering</div>
+              <div class="open-to-item">Product Data Roles</div>
+            </div>
+          </div>
+          <div>
+            <p class="contact-lede">If you're hiring for a team that values trusted pipelines, clear metrics, and practical systems, I'd be glad to connect.</p>
+            <a class="contact-email" href="mailto:sdai817@gmail.com">Email Me ↗</a>
+            <div class="contact-links-row">
+              <a href="https://www.linkedin.com/in/simengd/" target="_blank" rel="noreferrer">linkedin ↗</a>
+              <a href="https://github.com/bluebluegrass" target="_blank" rel="noreferrer">github ↗</a>
+              <a href="mailto:sdai817@gmail.com?subject=Resume%20request">resume on request ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-left">simona · amsterdam · product-minded data engineer</span>
+      <div class="footer-links">
+        <a href="mailto:sdai817@gmail.com">email</a>
+        <a href="https://www.linkedin.com/in/simengd/" target="_blank" rel="noreferrer">linkedin</a>
+        <a href="https://github.com/bluebluegrass" target="_blank" rel="noreferrer">github</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add("js");
+
+    console.info("Hi from Simona's worksite. Data, tools, and a little story sense.");
+
+    const revealNodes = document.querySelectorAll(".reveal");
+    revealNodes.forEach((node) => node.classList.add("is-pending"));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("is-pending");
+            entry.target.classList.add("in");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.07 }
+    );
+
+    revealNodes.forEach((node) => observer.observe(node));
+  </script>
+
+</body>
+</html>
