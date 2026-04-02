@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mass Sexual Abuse Lawsuits — Global Case Tracker</title>
+<meta name="description" content="Interactive tracker of institutional sexual abuse lawsuits and settlements involving doctors, coaches, clergy, and major organizations.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="./lawsuit-data.js"></script>
+<style>
+  :root {
+    --bg: #fcfbf8;
+    --surface: #ffffff;
+    --surface2: #f5f4f0;
+    --border: #e2e1da;
+    --border2: #d4d1c7;
+    --text: #141412;
+    --muted: #5a5a52;
+    --dim: #a0a098;
+    --accent: #e8390d;
+    --accent2: #0040c8;
+    --red: #c2410c;
+    --teal: #0f766e;
+    --purple: #6d28d9;
+    --blue: #1d4ed8;
+    --green: #15803d;
+    --orange: #b45309;
+    --shadow: 0 1px 3px rgba(20,20,18,0.06), 0 10px 28px rgba(20,20,18,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(circle at top right, rgba(232,57,13,0.07), transparent 28%),
+      linear-gradient(180deg, #fffdf9 0%, var(--bg) 18%, var(--bg) 100%);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 3rem 2.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(232,57,13,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .header-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4.4vw, 3.7rem);
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    max-width: 680px;
+  }
+  .header-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+  .header-contribute {
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+  .header-contribute a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .header-contribute a:hover { text-decoration: underline; }
+  .header-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  .header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: border-color 0.18s, color 0.18s, background 0.18s;
+  }
+  .header-link:hover {
+    color: var(--text);
+    border-color: var(--text);
+    background: var(--surface2);
+  }
+
+  /* ── DASHBOARD CARDS ── */
+  .summary-shell {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(252,251,248,0.96));
+  }
+  .summary-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2.5rem 1.65rem;
+  }
+  .dashboard-primary,
+  .dashboard-secondary {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .dashboard-primary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+  .dashboard-secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-radius: 20px;
+    margin-top: 0.9rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    padding: 1.75rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .stat-card:hover { background: var(--surface2); transform: translateY(-1px); }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--accent));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .stat-card:hover::after { transform: scaleX(1); }
+  .stat-card.primary {
+    padding: 2.25rem 2.25rem 2.1rem;
+  }
+  .stat-card.secondary {
+    padding: 1.2rem 1.4rem 1.1rem;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+  .stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .stat-card.primary .stat-value {
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+    line-height: 0.9;
+  }
+  .stat-card.secondary .stat-value {
+    font-size: clamp(1.6rem, 2.6vw, 2.35rem);
+  }
+  .stat-value span {
+    font-size: 0.55em;
+    color: var(--muted);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-weight: 300;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+  .stat-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    font-weight: 300;
+  }
+  .explore-bridge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--text);
+    background: var(--text);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+  }
+  .explore-bridge:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .summary-intro {
+    margin-top: 0.95rem;
+    max-width: 52rem;
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.72;
+  }
+  .dashboard-primary .stat-card:nth-child(1) { --card-accent: var(--accent); }
+  .dashboard-primary .stat-card:nth-child(2) { --card-accent: var(--teal); }
+  .dashboard-secondary .stat-card:nth-child(1) { --card-accent: var(--blue); }
+  .dashboard-secondary .stat-card:nth-child(2) { --card-accent: var(--purple); }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    padding: 2.5rem 2.5rem 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .factsheet {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .fact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.35rem 1.4rem;
+    box-shadow: var(--shadow);
+  }
+  .fact-card.hero {
+    grid-row: span 2;
+    background:
+      radial-gradient(circle at top left, rgba(232,57,13,0.06), transparent 34%),
+      var(--surface);
+  }
+  .fact-card.wide {
+    grid-column: span 2;
+  }
+  .fact-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .fact-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    max-width: 12ch;
+  }
+  .fact-copy {
+    margin-top: 0.85rem;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.7;
+  }
+  .fact-meta {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .fact-stat {
+    display: grid;
+    gap: 0.2rem;
+    margin-bottom: 0.85rem;
+  }
+  .fact-stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 2.25rem;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .fact-stat-note {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .mini-chart {
+    width: 100%;
+    height: 180px;
+    display: block;
+    margin-top: 0.8rem;
+  }
+  .mini-chart text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    fill: var(--muted);
+  }
+  .fact-list {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.9rem;
+  }
+  .fact-row {
+    display: grid;
+    gap: 0.3rem;
+  }
+  .fact-row-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+    font-size: 0.9rem;
+  }
+  .fact-row-label {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .fact-row-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .fact-bar {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    overflow: hidden;
+  }
+  .fact-bar-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bar-color) 76%, white), var(--bar-color));
+  }
+  .fact-emphasis {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .fact-grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-top: 0.85rem;
+  }
+  .fact-figure {
+    padding: 0.9rem 0;
+    border-top: 1.5px solid var(--border2);
+  }
+  .fact-figure-value {
+    font-family: 'Fraunces', serif;
+    font-size: 2.1rem;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .fact-figure-label {
+    margin-top: 0.4rem;
+    color: var(--text);
+    font-size: 0.83rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .fact-figure-note {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.73rem;
+    line-height: 1.4;
+  }
+
+  /* ── FILTERS ── */
+  .toolbar {
+    display: grid;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .toolbar-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .toolbar-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-group.secondary .chip {
+    font-size: 11px;
+    padding: 4px 11px;
+    color: color-mix(in srgb, var(--muted) 85%, transparent);
+  }
+  .country-select-wrap {
+    display: none;
+  }
+  .country-select {
+    width: 100%;
+    max-width: 240px;
+    padding: 0.65rem 0.85rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+  }
+  .filter-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .chip {
+    font-size: 12px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-weight: 400;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .chip:hover { color: var(--text); border-color: var(--text); }
+  .chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 500;
+  }
+  .result-count {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    transition: color 0.28s ease, transform 0.28s ease;
+  }
+  .result-count.is-updated {
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  /* ── CASE BROWSER ── */
+  .browser-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 1rem;
+    align-items: start;
+  }
+  .cases-section {
+    min-width: 0;
+  }
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1rem;
+  }
+  .case-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.05rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    animation: cardEnter 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 40ms);
+  }
+  .case-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(232, 57, 13, 0.22);
+    box-shadow: 0 18px 30px rgba(61, 47, 26, 0.08);
+  }
+  .case-card.is-highlighted {
+    border-color: rgba(232, 57, 13, 0.42);
+    box-shadow: 0 22px 36px rgba(232, 57, 13, 0.12);
+  }
+  .case-card.is-selected {
+    border-color: rgba(0, 64, 200, 0.36);
+    box-shadow: 0 22px 38px rgba(0, 64, 200, 0.12);
+  }
+  .case-card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 0.9rem;
+  }
+  .case-institution {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--text);
+  }
+  .case-top-meta {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .case-amount {
+    margin: 0.65rem 0 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .case-metrics {
+    display: grid;
+    gap: 0.55rem;
+  }
+  .case-amount-value {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .case-victim-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .case-victim-value {
+    margin-top: 0.12rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: -0.02em;
+  }
+  .case-amount-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .case-tags {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.8rem;
+  }
+  .case-status {
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.62;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em;
+  }
+  .case-select-indicator {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.18s ease;
+  }
+  .case-card:hover .case-select-indicator {
+    color: var(--text);
+    border-color: var(--text);
+  }
+  .case-card.is-selected .case-select-indicator {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .detail-panel {
+    position: sticky;
+    top: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    opacity: 1;
+    transform: translateY(0);
+    min-height: 260px;
+  }
+  .detail-panel.is-entering {
+    animation: panelIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .detail-panel-inner {
+    padding: 1.15rem 1.15rem 1.2rem;
+  }
+  .detail-panel-empty {
+    padding: 1.25rem;
+    min-height: 260px;
+    display: grid;
+    align-content: start;
+    gap: 0.65rem;
+  }
+  .detail-empty-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+  .detail-empty-copy {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .detail-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .detail-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .detail-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.55rem, 2vw, 2rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: var(--text);
+  }
+  .detail-subtitle {
+    margin: 0.45rem 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .detail-close {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .detail-close:hover {
+    color: var(--text);
+    border-color: var(--text);
+  }
+  .detail-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 0.85fr;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .detail-hero-card {
+    padding: 0.9rem 0.95rem;
+    border-radius: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+  .detail-hero-value {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    line-height: 1.08;
+  }
+  .detail-hero-value.primary {
+    font-size: clamp(2rem, 3vw, 2.7rem);
+    line-height: 0.94;
+  }
+  .detail-meta-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .detail-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .detail-block-copy {
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* Country badge */
+  .badge-country {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    padding: 5px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .badge-usa { background: rgba(0,64,200,0.08); color: var(--blue); border: 1px solid rgba(0,64,200,0.18); }
+  .badge-can { background: rgba(232,57,13,0.08); color: var(--accent); border: 1px solid rgba(232,57,13,0.18); }
+  .badge-aus { background: rgba(180,83,9,0.08); color: var(--orange); border: 1px solid rgba(180,83,9,0.16); }
+  .badge-bra { background: rgba(21,128,61,0.08); color: var(--green); border: 1px solid rgba(21,128,61,0.18); }
+  .badge-fra { background: rgba(109,40,217,0.08); color: var(--purple); border: 1px solid rgba(109,40,217,0.16); }
+  .badge-uk { background: rgba(194,65,12,0.08); color: var(--red); border: 1px solid rgba(194,65,12,0.16); }
+  .badge-irl { background: rgba(21,128,61,0.08); color: var(--green); border: 1px solid rgba(21,128,61,0.18); }
+
+  /* Type badge */
+  .badge-type {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .t-doctor { background: rgba(109,40,217,0.08); color: var(--purple); border: 1px solid rgba(109,40,217,0.16); }
+  .t-coach { background: rgba(180,83,9,0.08); color: var(--orange); border: 1px solid rgba(180,83,9,0.16); }
+  .t-org { background: rgba(15,118,110,0.08); color: var(--teal); border: 1px solid rgba(15,118,110,0.16); }
+  .t-church { background: rgba(194,65,12,0.08); color: var(--red); border: 1px solid rgba(194,65,12,0.16); }
+  .outcome-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-weight: 500;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* Settlement amount */
+  .amount-large {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent2);
+    display: block;
+  }
+  .amount-detail {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .amount-pending {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Victim count */
+  .victim-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+  }
+
+  .timeline-panel {
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .timeline-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .timeline-list {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: max(120px, 15%) 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    line-height: 1.5;
+  }
+  .timeline-card {
+    position: relative;
+    padding: 0.1rem 0 0.1rem 1rem;
+    border-left: 2px solid rgba(232,57,13,0.18);
+  }
+  .timeline-card::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.55rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .timeline-event-title {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .timeline-event-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+  .timeline-source {
+    margin-top: 0.35rem;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ── FOOTER ── */
+  .footnote {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    background: color-mix(in srgb, var(--surface) 92%, white);
+  }
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.25rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+  .footer-left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 980px) {
+    .factsheet {
+      grid-template-columns: 1fr;
+    }
+    .fact-card.hero,
+    .fact-card.wide {
+      grid-row: auto;
+      grid-column: auto;
+    }
+    .browser-layout {
+      grid-template-columns: 1fr;
+    }
+    .detail-panel {
+      position: static;
+      order: 2;
+    }
+  }
+  @media (max-width: 760px) {
+    .summary-inner,
+    .header,
+    .content { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .dashboard-primary,
+    .dashboard-secondary {
+      grid-template-columns: 1fr;
+    }
+    .filter-group.secondary {
+      display: none;
+    }
+    .country-select-wrap {
+      display: block;
+    }
+  }
+  @media (max-width: 600px) {
+    .header, .content { padding: 1.5rem 1.25rem; }
+    .stat-card { padding: 1.25rem 1.5rem; }
+    .fact-grid-two { grid-template-columns: 1fr; }
+    .filter-row { align-items: flex-start; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.35rem; }
+    .bubble-overlay { flex-direction: column; align-items: flex-start; }
+    .bubble-canvas { min-height: 460px; }
+    .detail-hero,
+    .detail-summary { grid-template-columns: 1fr; }
+    .footer-inner { padding: 1.25rem 1.25rem; flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes cardEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .header { animation: fadeUp 0.5s ease both; }
+  .summary-shell { animation: fadeUp 0.5s 0.1s ease both; }
+  .content { animation: fadeUp 0.5s 0.2s ease both; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-links">
+    <a class="header-link" href="/">← Main Site</a>
+    <a class="header-link" href="/#data-projects">More Data Projects</a>
+  </div>
+  <div class="header-label">Global Case Tracker · Updated April 2026</div>
+  <h1 class="header-title">Mass Sexual Abuse Cases<br>Across <em>Institutions &amp; Systems</em></h1>
+  <p class="header-contribute">This tracker is not exhaustive and will be updated over time. To contribute a case or correction, <a href="mailto:sdai817@gmail.com"> email me</a>.</p>
+</div>
+
+<!-- DASHBOARD CARDS -->
+<div class="summary-shell">
+  <div class="summary-inner">
+    <div class="dashboard-primary">
+      <div class="stat-card primary">
+        <div class="stat-label">Total Settlements</div>
+        <div class="stat-value" id="summary-settlements-value"></div>
+        <div class="stat-note" id="summary-settlements-note"></div>
+      </div>
+      <div class="stat-card primary">
+        <div class="stat-label">Total Victims</div>
+        <div class="stat-value" id="summary-victims-value"></div>
+        <div class="stat-note" id="summary-victims-note"></div>
+      </div>
+    </div>
+    <div class="dashboard-secondary">
+      <div class="stat-card secondary">
+        <div class="stat-label">Cases Tracked</div>
+        <div class="stat-value" id="summary-cases-value"></div>
+        <div class="stat-note" id="summary-cases-note"></div>
+      </div>
+      <div class="stat-card secondary">
+        <div class="stat-label">Countries</div>
+        <div class="stat-value" id="summary-countries-value"></div>
+        <div class="stat-note" id="summary-countries-note"></div>
+      </div>
+    </div>
+    <p class="summary-intro">Cross-sector tracker of mass sexual abuse cases involving universities, churches, youth organizations, detention systems, prisons, sports bodies, entertainment workplaces, and other institutions. The dataset includes settlements, verdicts, criminal cases, redress schemes, and active litigation.</p>
+    <a href="#case-browser" class="explore-bridge" id="explore-bridge">Explore cases ↓</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="section-label"><span class="section-title">Key patterns</span></div>
+  <section class="factsheet" id="factsheet">
+    <div class="fact-card hero" id="factsheet-hero"></div>
+    <div class="fact-card wide" id="factsheet-trend"></div>
+    <div class="fact-card" id="factsheet-sectors"></div>
+    <div class="fact-card" id="factsheet-geography"></div>
+    <div class="fact-card" id="factsheet-concentration"></div>
+    <div class="fact-card" id="factsheet-perpetrators"></div>
+    <div class="fact-card" id="factsheet-accountability"></div>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar" id="case-browser">
+    <div class="toolbar-title">
+      <div class="section-label" style="margin-bottom:0; flex:1;">
+        <span class="section-title">Browse documented cases</span>
+      </div>
+      <div class="result-count" id="count"></div>
+    </div>
+    <div class="filter-row">
+      <div class="filter-group" id="type-filter-group">
+        <span class="filter-label">Type</span>
+        <button class="chip active" data-filter-group="type" onclick="filterByType(this,'all')">All</button>
+        <button class="chip" data-filter-group="type" onclick="filterByType(this,'doctor')">Doctor</button>
+        <button class="chip" data-filter-group="type" onclick="filterByType(this,'coach')">Coach / Staff</button>
+        <button class="chip" data-filter-group="type" onclick="filterByType(this,'org')">Institution / Govt</button>
+        <button class="chip" data-filter-group="type" onclick="filterByType(this,'church')">Church / Clergy</button>
+      </div>
+    </div>
+    <div class="filter-row">
+      <div class="filter-group secondary" id="country-filter-group">
+        <span class="filter-label">Country</span>
+      </div>
+      <div class="country-select-wrap">
+        <label class="filter-label" for="country-select">Country</label>
+        <select id="country-select" class="country-select" onchange="filterByCountrySelect(this.value)"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="browser-layout">
+    <div class="cases-section">
+      <div id="case-grid" class="case-grid"></div>
+    </div>
+    <aside id="detail-panel" class="detail-panel" aria-live="polite">
+      <div id="detail-panel-content"></div>
+    </aside>
+  </div>
+
+  <!-- FOOTNOTE -->
+  <div class="footnote">
+    <strong style="color:var(--text);">Notes:</strong> Summary cards and the settlement bubble field are computed from numeric fields in the case dataset. Bubble sizes only reflect disclosed USD civil payouts; non-USD compensation, criminal penalties, undisclosed amounts, and pending claims are excluded from the bubble sizing. Victim totals are based on reported case-level counts or compensation-program counts and remain conservative where coverage is incomplete or qualitative.
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-left">simona · amsterdam · product-minded data engineer</span>
+    <div class="footer-links">
+      <a href="/">home</a>
+      <a href="/#data-projects">data projects</a>
+      <a href="/legal_settlements/">mass abuse tracker</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const DATA = window.LAWSUIT_TRACKER_DATA;
+  let activeTypeFilter = 'all';
+  let activeCountryFilter = 'all';
+  let activeCaseBubbleFilter = 'all';
+  let selectedCaseId = null;
+  let summaryAnimated = false;
+
+  function formatMillions(value) {
+    return value >= 1000
+      ? `$${(value / 1000).toFixed(1)}<span>B</span>`
+      : `$${value.toFixed(1)}<span>M</span>`;
+  }
+
+  function formatCount(value) {
+    return new Intl.NumberFormat('en-US').format(value);
+  }
+
+  function computeSummary() {
+    const settlementRows = DATA.cases.filter(item => typeof item.settlementMillionsUsd === 'number');
+    const settlementTotal = settlementRows.reduce((sum, item) => sum + item.settlementMillionsUsd, 0);
+
+    const victimRows = DATA.cases.filter(item => typeof item.victimCountApprox === 'number');
+    const victimTotal = victimRows.reduce((sum, item) => sum + item.victimCountApprox, 0);
+
+    const uniqueCountries = [];
+    for (const item of DATA.cases) {
+      if (!uniqueCountries.includes(item.countryLabel)) uniqueCountries.push(item.countryLabel);
+    }
+
+    const settlementCount = DATA.cases.filter(item => item.outcomeType === 'Settlement').length;
+    const ongoingCount = DATA.cases.filter(item => item.outcomeType === 'Ongoing litigation').length;
+    const otherCount = DATA.cases.length - settlementCount - ongoingCount;
+
+    return {
+      settlementTotal,
+      settlementRowCount: settlementRows.length,
+      victimTotal,
+      victimRowCount: victimRows.length,
+      countries: uniqueCountries,
+      settlementCount,
+      ongoingCount,
+      otherCount,
+    };
+  }
+
+  function computeFactsheet() {
+    const cases = DATA.cases;
+    const settlementRows = cases.filter(item => typeof item.settlementMillionsUsd === 'number');
+    const victimRows = cases.filter(item => typeof item.victimCountApprox === 'number');
+    const yearCountsMap = cases.reduce((map, item) => {
+      if (typeof item.firstReportedYear !== 'number') return map;
+      map[item.firstReportedYear] = (map[item.firstReportedYear] || 0) + 1;
+      return map;
+    }, {});
+    const years = Object.keys(yearCountsMap).map(Number).sort((a, b) => a - b);
+    const yearCounts = years.map(year => ({ year, count: yearCountsMap[year] }));
+
+    const countryCounts = Object.entries(cases.reduce((map, item) => {
+      map[item.countryLabel] = (map[item.countryLabel] || 0) + 1;
+      return map;
+    }, {})).sort((a, b) => b[1] - a[1]);
+
+    const sectorSettlementTotals = Object.entries(settlementRows.reduce((map, item) => {
+      map[item.typeLabel] = (map[item.typeLabel] || 0) + item.settlementMillionsUsd;
+      return map;
+    }, {})).sort((a, b) => b[1] - a[1]);
+
+    const sortedSettlements = settlementRows.map(item => item.settlementMillionsUsd).sort((a, b) => a - b);
+    const medianSettlement = sortedSettlements.length % 2
+      ? sortedSettlements[(sortedSettlements.length - 1) / 2]
+      : (sortedSettlements[sortedSettlements.length / 2 - 1] + sortedSettlements[sortedSettlements.length / 2]) / 2;
+
+    const totalSettlement = settlementRows.reduce((sum, item) => sum + item.settlementMillionsUsd, 0);
+    const top3Settlement = settlementRows
+      .slice()
+      .sort((a, b) => b.settlementMillionsUsd - a.settlementMillionsUsd)
+      .slice(0, 3)
+      .reduce((sum, item) => sum + item.settlementMillionsUsd, 0);
+    const top5Settlement = settlementRows
+      .slice()
+      .sort((a, b) => b.settlementMillionsUsd - a.settlementMillionsUsd)
+      .slice(0, 5)
+      .reduce((sum, item) => sum + item.settlementMillionsUsd, 0);
+
+    const after2017 = cases.filter(item => typeof item.firstReportedYear === 'number' && item.firstReportedYear >= 2017).length;
+    const genderCounts = Object.entries(cases.reduce((map, item) => {
+      const key = item.perpetratorGender || 'unknown';
+      map[key] = (map[key] || 0) + 1;
+      return map;
+    }, {})).sort((a, b) => b[1] - a[1]);
+    const singlePerpRows = cases.filter(item => item.perpetratorGender === 'male' || item.perpetratorGender === 'female');
+    const ageCaughtValues = cases
+      .filter(item => typeof item.perpetratorAgeWhenCaught === 'number')
+      .map(item => item.perpetratorAgeWhenCaught)
+      .sort((a, b) => a - b);
+    const yearsActiveValues = cases
+      .filter(item => typeof item.yearsActiveBeforeCaught === 'number')
+      .map(item => item.yearsActiveBeforeCaught)
+      .sort((a, b) => a - b);
+    const coverUpCounts = Object.entries(cases.reduce((map, item) => {
+      const key = item.coverUpFinding || 'none';
+      map[key] = (map[key] || 0) + 1;
+      return map;
+    }, {})).sort((a, b) => b[1] - a[1]);
+    const settlementPerVictimValues = cases
+      .filter(item => typeof item.settlementPerVictimUsd === 'number')
+      .map(item => item.settlementPerVictimUsd)
+      .sort((a, b) => a - b);
+
+    const median = values => {
+      if (!values.length) return null;
+      return values.length % 2
+        ? values[(values.length - 1) / 2]
+        : (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
+    };
+
+    return {
+      earliest: Math.min(...years),
+      latest: Math.max(...years),
+      yearCounts,
+      countryCounts,
+      sectorSettlementTotals,
+      settlementRows: settlementRows.length,
+      victimRows: victimRows.length,
+      totalSettlement,
+      totalVictims: victimRows.reduce((sum, item) => sum + item.victimCountApprox, 0),
+      medianSettlement,
+      top3Share: top3Settlement / totalSettlement,
+      top5Share: top5Settlement / totalSettlement,
+      after2017,
+      after2017Share: after2017 / cases.length,
+      genderCounts,
+      singlePerpRows: singlePerpRows.length,
+      medianAgeWhenCaught: median(ageCaughtValues),
+      ageWhenCaughtCount: ageCaughtValues.length,
+      medianYearsActiveBeforeCaught: median(yearsActiveValues),
+      yearsActiveCount: yearsActiveValues.length,
+      coverUpCounts,
+      medianSettlementPerVictimUsd: median(settlementPerVictimValues),
+      settlementPerVictimCount: settlementPerVictimValues.length,
+    };
+  }
+
+  function formatMillionsValue(value) {
+    return value >= 1000
+      ? `$${(value / 1000).toFixed(1)}<span>B</span>`
+      : `$${value.toFixed(1)}<span>M</span>`;
+  }
+
+  function animateValue({ element, start, end, duration, render }) {
+    const startTime = performance.now();
+
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const value = start + (end - start) * eased;
+      render(value, progress);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  function renderSummary() {
+    const summary = computeSummary();
+
+    const settlementsEl = document.getElementById('summary-settlements-value');
+    const casesEl = document.getElementById('summary-cases-value');
+    const victimsEl = document.getElementById('summary-victims-value');
+    const countriesEl = document.getElementById('summary-countries-value');
+
+    if (!summaryAnimated) {
+      summaryAnimated = true;
+
+      animateValue({
+        element: settlementsEl,
+        start: 0,
+        end: summary.settlementTotal,
+        duration: 1900,
+        render: value => {
+          settlementsEl.innerHTML = formatMillionsValue(value);
+        },
+      });
+      animateValue({
+        element: casesEl,
+        start: 0,
+        end: DATA.cases.length,
+        duration: 1400,
+        render: value => {
+          casesEl.textContent = Math.round(value).toString();
+        },
+      });
+      animateValue({
+        element: victimsEl,
+        start: 0,
+        end: summary.victimTotal,
+        duration: 2100,
+        render: value => {
+          victimsEl.innerHTML = `${formatCount(Math.round(value))}<span>+</span>`;
+        },
+      });
+      animateValue({
+        element: countriesEl,
+        start: 0,
+        end: summary.countries.length,
+        duration: 1100,
+        render: value => {
+          countriesEl.textContent = Math.round(value).toString();
+        },
+      });
+    } else {
+      settlementsEl.innerHTML = formatMillions(summary.settlementTotal);
+      casesEl.textContent = DATA.cases.length.toString();
+      victimsEl.innerHTML = `${formatCount(summary.victimTotal)}<span>+</span>`;
+      countriesEl.textContent = summary.countries.length.toString();
+    }
+
+    document.getElementById('summary-settlements-note').textContent = 'Disclosed civil settlements only';
+    document.getElementById('summary-cases-note').textContent = `${summary.settlementCount} settled · ${summary.ongoingCount} active`;
+    document.getElementById('summary-victims-note').textContent = 'Named claimants and reported victims';
+    document.getElementById('summary-countries-note').textContent = 'Cross-border institutional cases';
+    document.getElementById('explore-bridge').textContent = `Explore ${DATA.cases.length} cases ↓`;
+  }
+
+  function renderTrendChart(points) {
+    if (!points.length) return '';
+    const width = 720;
+    const height = 180;
+    const padding = { top: 12, right: 18, bottom: 24, left: 18 };
+    const max = Math.max(...points.map(point => point.count));
+    const innerWidth = width - padding.left - padding.right;
+    const innerHeight = height - padding.top - padding.bottom;
+    const xStep = points.length > 1 ? innerWidth / (points.length - 1) : 0;
+    const coords = points.map((point, index) => {
+      const x = padding.left + xStep * index;
+      const y = padding.top + innerHeight - ((point.count / max) * innerHeight);
+      return { ...point, x, y };
+    });
+    const path = coords.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ');
+    const area = `${path} L ${padding.left + innerWidth} ${padding.top + innerHeight} L ${padding.left} ${padding.top + innerHeight} Z`;
+    const labels = [0, Math.floor(points.length / 2), points.length - 1]
+      .filter((value, index, array) => array.indexOf(value) === index)
+      .map(index => `<text x="${coords[index].x}" y="${height - 6}" text-anchor="middle">${coords[index].year}</text>`)
+      .join('');
+
+    return `<svg class="mini-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="factsheet-area" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="rgba(232,57,13,0.28)" />
+          <stop offset="100%" stop-color="rgba(232,57,13,0.02)" />
+        </linearGradient>
+      </defs>
+      <line x1="${padding.left}" y1="${padding.top + innerHeight}" x2="${padding.left + innerWidth}" y2="${padding.top + innerHeight}" stroke="rgba(20,20,18,0.12)" />
+      <path d="${area}" fill="url(#factsheet-area)"></path>
+      <path d="${path}" fill="none" stroke="${'#e8390d'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+      ${coords.map(point => `<circle cx="${point.x}" cy="${point.y}" r="3" fill="${'#e8390d'}"></circle>`).join('')}
+      ${labels}
+    </svg>`;
+  }
+
+  function renderBarList(items, maxValue, formatter, color) {
+    return `<div class="fact-list">
+      ${items.map(([label, value]) => `
+        <div class="fact-row">
+          <div class="fact-row-top">
+            <div class="fact-row-label">${label}</div>
+            <div class="fact-row-value">${formatter(value)}</div>
+          </div>
+          <div class="fact-bar"><div class="fact-bar-fill" style="--bar-color:${color}; width:${(value / maxValue) * 100}%"></div></div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  function renderFactsheet() {
+    const facts = computeFactsheet();
+    const formatPct = value => `${(value * 100).toFixed(1)}%`;
+    const formatMillionsPlain = value => value >= 1000 ? `$${(value / 1000).toFixed(1)}B` : `$${value.toFixed(0)}M`;
+    const formatUsdPlain = value => value >= 1000000
+      ? `$${(value / 1000000).toFixed(1)}M`
+      : `$${Math.round(value / 1000)}K`;
+
+    document.getElementById('factsheet-hero').innerHTML = `
+      <div class="fact-kicker">Mass abuse factsheet</div>
+      <div class="fact-title">High-level patterns across institutional abuse cases</div>
+      <div class="fact-copy">This section is meant to give you the big picture quickly. In this dataset, public reporting rises sharply after 2017, while most disclosed settlement money is still concentrated in a small number of very large institutional cases.</div>
+      <div class="fact-grid-two">
+        <div class="fact-figure">
+          <div class="fact-figure-value">${facts.earliest}</div>
+          <div class="fact-figure-label">The earliest case in this tracker was first reported in this year</div>
+        </div>
+        <div class="fact-figure">
+          <div class="fact-figure-value">${facts.latest}</div>
+          <div class="fact-figure-label">The most recent case in this tracker was first reported in this year</div>
+        </div>
+      </div>
+      <div class="fact-meta">
+        <div><span class="fact-emphasis">${formatPct(facts.after2017Share)}</span> of tracked cases were first publicly reported in 2017 or later.</div>
+        <div>Right now, the tracker includes ${facts.settlementRows} cases with disclosed settlement amounts and ${facts.victimRows} cases with reported victim counts.</div>
+      </div>
+    `;
+
+    document.getElementById('factsheet-trend').innerHTML = `
+      <div class="fact-kicker">Cases over time</div>
+      <div class="fact-stat">
+        <div class="fact-stat-value">${facts.after2017}</div>
+        <div class="fact-stat-note">Cases first reported in 2017 or later</div>
+      </div>
+      <div class="fact-copy">Most of these cases entered public view in the late 2010s and after, rather than being reported evenly over time.</div>
+      ${renderTrendChart(facts.yearCounts)}
+    `;
+
+    document.getElementById('factsheet-sectors').innerHTML = `
+      <div class="fact-kicker">Settlement by sector</div>
+      <div class="fact-copy">The largest disclosed settlement totals are concentrated in cases involving churches and doctors.</div>
+      ${renderBarList(facts.sectorSettlementTotals.slice(0, 4), facts.sectorSettlementTotals[0][1], formatMillionsPlain, '#e8390d')}
+    `;
+
+    document.getElementById('factsheet-geography').innerHTML = `
+      <div class="fact-kicker">Geography</div>
+      <div class="fact-copy">Most cases in the tracker come from the United States, but the pattern is not limited to one country.</div>
+      ${renderBarList(facts.countryCounts.slice(0, 5), facts.countryCounts[0][1], value => `${value} cases`, '#0f766e')}
+    `;
+
+    document.getElementById('factsheet-concentration').innerHTML = `
+      <div class="fact-kicker">Concentration</div>
+      <div class="fact-copy">A handful of very large cases drive much of the money in this dataset. The typical settlement is much smaller than the biggest headline cases.</div>
+      <div class="fact-grid-two">
+        <div class="fact-figure">
+          <div class="fact-figure-value">${formatPct(facts.top3Share)}</div>
+          <div class="fact-figure-label">Top 3 cases' share of all disclosed settlements</div>
+        </div>
+        <div class="fact-figure">
+          <div class="fact-figure-value">${formatMillionsPlain(facts.medianSettlement)}</div>
+          <div class="fact-figure-label">Typical disclosed settlement</div>
+        </div>
+      </div>
+      <div class="fact-meta">
+        <div>The top 5 cases make up <span class="fact-emphasis">${formatPct(facts.top5Share)}</span> of all disclosed settlement dollars in the dataset.</div>
+      </div>
+    `;
+
+    document.getElementById('factsheet-perpetrators').innerHTML = `
+      <div class="fact-kicker">Perpetrators</div>
+      <div class="fact-copy">In cases where the dataset names a single perpetrator, the pattern is overwhelmingly male, and many were not stopped until much later in life.</div>
+      <div class="fact-grid-two">
+        <div class="fact-figure">
+          <div class="fact-figure-value">${facts.singlePerpRows}</div>
+          <div class="fact-figure-label">Single-perpetrator cases on record</div>
+          <div class="fact-figure-note">All currently marked male</div>
+        </div>
+        <div class="fact-figure">
+          <div class="fact-figure-value">${facts.medianAgeWhenCaught ? facts.medianAgeWhenCaught.toFixed(1) : '—'}</div>
+          <div class="fact-figure-label">Typical age when caught</div>
+          <div class="fact-figure-note">Based on ${facts.ageWhenCaughtCount} cases with reported ages</div>
+        </div>
+      </div>
+      <div class="fact-meta">
+        <div>Across the rows with usable age data, the median time active before being caught was <span class="fact-emphasis">${facts.medianYearsActiveBeforeCaught ? facts.medianYearsActiveBeforeCaught.toFixed(1) : '—'}</span> years.</div>
+      </div>
+    `;
+
+    document.getElementById('factsheet-accountability').innerHTML = `
+      <div class="fact-kicker">Concealment & payout</div>
+      <div class="fact-copy">Signs of institutional cover-up appear again and again, and looking at payout per victim gives a more grounded view than raw totals alone.</div>
+      <div class="fact-grid-two">
+        <div class="fact-figure">
+          <div class="fact-figure-value">${facts.coverUpCounts.find(([label]) => label === 'documented')?.[1] || 0}</div>
+          <div class="fact-figure-label">Documented cover-up cases</div>
+        </div>
+        <div class="fact-figure">
+          <div class="fact-figure-value">${facts.medianSettlementPerVictimUsd ? formatUsdPlain(facts.medianSettlementPerVictimUsd) : '—'}</div>
+          <div class="fact-figure-label">Typical settlement per victim</div>
+          <div class="fact-figure-note">Based on ${facts.settlementPerVictimCount} cases with usable figures</div>
+        </div>
+      </div>
+      <div class="fact-meta">
+        <div>Another ${facts.coverUpCounts.find(([label]) => label === 'alleged')?.[1] || 0} cases include <span class="fact-emphasis">allegations</span> of a cover-up, but not documented findings.</div>
+      </div>
+    `;
+  }
+
+  function getChartColor(item) {
+    if (item.category === 'church') return '#c2410c';
+    if (item.category === 'doctor') return '#6d28d9';
+    return '#0f766e';
+  }
+
+  function getCaseId(item) {
+    return `${item.countryCode}-${item.institution}-${item.perpetrator}`
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
+  function getCountryFlag(countryCode) {
+    const flags = {
+      usa: '🇺🇸',
+      can: '🇨🇦',
+      aus: '🇦🇺',
+      bra: '🇧🇷',
+      fra: '🇫🇷',
+      uk: '🇬🇧',
+      irl: '🇮🇪',
+    };
+    return flags[countryCode] || '🌍';
+  }
+
+  function getChartLabel(item) {
+    const replacements = [
+      ['University', 'U'],
+      ['Univ.', 'U'],
+      ['NewYork-Presbyterian Hospital', 'NYP'],
+      ['Church of Jesus Christ of Latter-day Saints', 'LDS Church'],
+    ];
+    let label = item.institution;
+    replacements.forEach(([from, to]) => {
+      label = label.replace(from, to);
+    });
+    return label.length > 28 ? label.slice(0, 28).trimEnd() + '…' : label;
+  }
+
+  function renderCountryFilters() {
+    const group = document.getElementById('country-filter-group');
+    const select = document.getElementById('country-select');
+    const countries = [...new Set(DATA.cases.map(item => item.countryLabel))];
+    const buttonsHtml = ['<button class="chip active" data-filter-group="country" data-country-code="all" onclick="filterByCountry(this,\'all\')">All</button>']
+      .concat(
+        countries.map(country => {
+          const code = DATA.cases.find(item => item.countryLabel === country)?.countryCode || '';
+          return `<button class="chip" data-filter-group="country" data-country-code="${code}" onclick="filterByCountry(this,'${code}')">${getCountryFlag(code)} ${country}</button>`;
+        })
+      )
+      .join('');
+    group.insertAdjacentHTML('beforeend', buttonsHtml);
+    select.innerHTML = ['<option value="all">All countries</option>']
+      .concat(countries.map(country => {
+        const code = DATA.cases.find(item => item.countryLabel === country)?.countryCode || '';
+        return `<option value="${code}">${getCountryFlag(code)} ${country}</option>`;
+      }))
+      .join('');
+  }
+
+  function renderSettlement(item) {
+    if (item.settlementPending) {
+      return `<span class="amount-pending">${item.settlementPending}</span><span class="amount-detail">${item.settlementDetail}</span>`;
+    }
+
+    const suffix = item.settlementSuffix
+      ? ` <span style="font-size:10px;color:var(--muted)">(${item.settlementSuffix})</span>`
+      : '';
+
+    return `<span class="amount-large">${item.settlementDisplay}${suffix}</span><span class="amount-detail">${item.settlementDetail}</span>`;
+  }
+
+  function buildFallbackTimeline(item) {
+    const timeline = [];
+
+    if (item.outcomeType) {
+      timeline.push({
+        date: 'Current status',
+        title: item.outcomeType,
+        body: item.settlementDetail || item.victimsDetail || 'Case remains in the tracker with an active outcome status.',
+        source: '',
+      });
+    }
+
+    if (item.victimsDetail) {
+      timeline.push({
+        date: 'Case scope',
+        title: `Reported victims: ${item.victims}`,
+        body: item.victimsDetail,
+        source: '',
+      });
+    }
+
+    if (timeline.length === 0) {
+      timeline.push({
+        date: 'Tracked case',
+        title: item.perpetrator,
+        body: 'Timeline details have not been added yet.',
+        source: '',
+      });
+    }
+
+    return timeline;
+  }
+
+  function renderTimeline(item) {
+    const timeline = item.timeline && item.timeline.length ? item.timeline : buildFallbackTimeline(item);
+    return `<div class="timeline-panel">
+      <div class="timeline-title">Case timeline</div>
+      <div class="timeline-list">
+        ${timeline.map(event => `
+          <div class="timeline-item">
+            <div class="timeline-date">${event.date}</div>
+            <div class="timeline-card">
+              <div class="timeline-event-title">${event.title}</div>
+              <div class="timeline-event-body">${event.body}</div>
+              ${event.source ? `<div class="timeline-source">${event.source}</div>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
+  function getBaseFilteredCases() {
+    return DATA.cases.filter(item => {
+      const typeMatch = activeTypeFilter === 'all' || item.category === activeTypeFilter;
+      const countryMatch = activeCountryFilter === 'all' || item.countryCode === activeCountryFilter;
+      return typeMatch && countryMatch;
+    });
+  }
+
+  function getFilteredCases() {
+    return getBaseFilteredCases().filter(item => {
+      const caseMatch = activeCaseBubbleFilter === 'all' || getCaseId(item) === activeCaseBubbleFilter;
+      return caseMatch;
+    });
+  }
+
+  function renderCaseCard(item) {
+    const caseId = getCaseId(item);
+    const isHighlighted = activeCaseBubbleFilter === caseId;
+    const isSelected = selectedCaseId === caseId;
+    return `<article class="case-card${isHighlighted ? ' is-highlighted' : ''}${isSelected ? ' is-selected' : ''}" role="button" tabindex="0" onclick="selectCase('${caseId}')" onkeydown="handleCardKeydown(event, '${caseId}')">
+      <div class="case-card-top">
+        <div class="case-institution">${item.institution}</div>
+        <div class="case-top-meta">
+          <span class="badge-country badge-${item.countryCode}" aria-label="${item.countryLabel}">${getCountryFlag(item.countryCode)}</span>
+          <span class="case-select-indicator" aria-hidden="true">${isSelected ? '●' : '→'}</span>
+        </div>
+      </div>
+      <div class="case-amount">
+        <div class="case-metrics">
+          <div>
+            <div class="case-amount-value">${item.settlementDisplay || item.settlementPending || 'Pending'}</div>
+            <div class="case-amount-sub">Settlement / outcome</div>
+          </div>
+          <div>
+            <div class="case-victim-label">Victims reported</div>
+            <div class="case-victim-value">${item.victims}</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-tags">
+        <span class="badge-type t-${item.typeClass}">${item.typeLabel}</span>
+      </div>
+      <div class="case-status">${item.victimsDetail}</div>
+    </article>`;
+  }
+
+  function syncSelectedCase() {
+    const visibleIds = new Set(getFilteredCases().map(item => getCaseId(item)));
+    if (selectedCaseId && !visibleIds.has(selectedCaseId)) {
+      selectedCaseId = null;
+    }
+  }
+
+  function renderCaseGrid() {
+    syncSelectedCase();
+    const cases = getFilteredCases();
+    document.getElementById('case-grid').innerHTML = cases.map(renderCaseCard).join('');
+    document.querySelectorAll('#case-grid .case-card').forEach((el, i) => {
+      el.style.setProperty('--i', i);
+    });
+    const countEl = document.getElementById('count');
+    countEl.textContent = `Showing ${cases.length} of ${DATA.cases.length}`;
+    countEl.classList.remove('is-updated');
+    void countEl.offsetHeight;
+    countEl.classList.add('is-updated');
+    window.clearTimeout(renderCaseGrid._flashTimer);
+    renderCaseGrid._flashTimer = window.setTimeout(() => countEl.classList.remove('is-updated'), 320);
+  }
+
+  function getSelectedCase() {
+    if (!selectedCaseId) return null;
+    return getBaseFilteredCases().find(item => getCaseId(item) === selectedCaseId) || null;
+  }
+
+  function renderDetailPanel() {
+    const panel = document.getElementById('detail-panel');
+    const container = document.getElementById('detail-panel-content');
+    const item = getSelectedCase();
+
+    if (!item) {
+      panel.classList.remove('is-entering');
+      container.innerHTML = `<div class="detail-panel-empty">
+        <div class="detail-eyebrow">Case detail</div>
+        <div class="detail-empty-title">Select a case to inspect its timeline.</div>
+        <div class="detail-empty-copy">Use the filters or click any card. On desktop, this drawer stays visible so the card grid remains your navigation layer.</div>
+      </div>`;
+      return;
+    }
+
+    container.innerHTML = `<div class="detail-panel-inner">
+      <div class="detail-head">
+        <div>
+          <div class="detail-eyebrow">Case detail</div>
+          <h3 class="detail-title">${item.institution}</h3>
+          <p class="detail-subtitle">${item.perpetrator} · ${item.role}</p>
+        </div>
+        <button class="detail-close" type="button" aria-label="Close selected case" onclick="clearSelectedCase()">×</button>
+      </div>
+      <div class="detail-hero">
+        <div class="detail-hero-card">
+          <div class="detail-block-label">Settlement</div>
+          <div class="detail-hero-value primary">${item.settlementDisplay || item.settlementPending || 'Pending'}</div>
+        </div>
+        <div class="detail-hero-card">
+          <div class="detail-block-label">Victims</div>
+          <div class="detail-hero-value primary">${item.victims}</div>
+        </div>
+      </div>
+      <div class="detail-meta-row">
+        <span class="badge-type t-${item.typeClass}">${item.typeLabel}</span>
+        <span class="outcome-pill">${item.outcomeType || 'Case tracked'}</span>
+      </div>
+      ${renderTimeline(item)}
+    </div>`;
+    panel.classList.remove('is-entering');
+    void panel.offsetHeight;
+    panel.classList.add('is-entering');
+    if (window.innerWidth < 980) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function selectCase(caseId) {
+    selectedCaseId = selectedCaseId === caseId ? null : caseId;
+    if (activeCaseBubbleFilter !== 'all') {
+      activeCaseBubbleFilter = selectedCaseId || 'all';
+    }
+    renderCaseGrid();
+    renderDetailPanel();
+    renderBubbleChart();
+  }
+
+  function clearSelectedCase() {
+    selectedCaseId = null;
+    activeCaseBubbleFilter = 'all';
+    renderCaseGrid();
+    renderDetailPanel();
+    renderBubbleChart();
+  }
+
+  function handleCardKeydown(event, caseId) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      selectCase(caseId);
+    }
+  }
+
+  function setActiveChip(group, btn) {
+    document.querySelectorAll(`.chip[data-filter-group="${group}"]`).forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function filterByType(btn, cat) {
+    activeTypeFilter = cat;
+    setActiveChip('type', btn);
+    renderCaseGrid();
+    renderDetailPanel();
+  }
+
+  function filterByCountry(btn, countryCode) {
+    activeCountryFilter = countryCode;
+    setActiveChip('country', btn);
+    document.getElementById('country-select').value = countryCode;
+    renderCaseGrid();
+    renderDetailPanel();
+  }
+
+  function filterByCountrySelect(countryCode) {
+    activeCountryFilter = countryCode;
+    const chip = document.querySelector(`.chip[data-filter-group="country"][data-country-code="${countryCode}"]`);
+    if (chip) setActiveChip('country', chip);
+    renderCaseGrid();
+    renderDetailPanel();
+  }
+  renderSummary();
+  renderFactsheet();
+  renderCountryFilters();
+  renderCaseGrid();
+  renderDetailPanel();
+</script>
+</body>
+</html>
