@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DE Job Market Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+      :root {
+        --bg: #f4f3ef;
+        --panel: #fffdf7;
+        --ink: #14281d;
+        --muted: #5e6c64;
+        --border: #d6d0c4;
+        --nl: #1c7c54;
+        --us: #d1495b;
+        --accent: #edae49;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(237, 174, 73, 0.18), transparent 30%),
+          radial-gradient(circle at top right, rgba(209, 73, 91, 0.12), transparent 25%),
+          linear-gradient(180deg, #f8f5ee 0%, var(--bg) 100%);
+      }
+
+      .page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+      }
+
+      header {
+        display: grid;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .subhead {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        color: var(--muted);
+      }
+
+      .controls,
+      .card-grid,
+      .venn {
+        display: grid;
+        gap: 16px;
+      }
+
+      .controls {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        margin-bottom: 28px;
+      }
+
+      .control,
+      .card,
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: 0 12px 32px rgba(20, 40, 29, 0.06);
+      }
+
+      .control { padding: 14px; }
+      .control label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .control select,
+      .control button {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+      }
+
+      .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        margin-bottom: 28px;
+      }
+
+      .card { padding: 18px; }
+      .eyebrow {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .value {
+        margin-top: 10px;
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .panel {
+        padding: 18px;
+        margin-bottom: 20px;
+      }
+
+      .panel h2 {
+        margin: 0 0 16px;
+        font-size: 1.2rem;
+      }
+
+      .chart-wrap {
+        position: relative;
+        min-height: 340px;
+      }
+
+      .salary-grid,
+      .venn {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .salary-box {
+        padding: 16px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid var(--border);
+      }
+
+      .salary-rail {
+        position: relative;
+        height: 16px;
+        margin: 18px 0;
+        background: #ece6dc;
+        border-radius: 999px;
+      }
+
+      .salary-bar {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        border-radius: 999px;
+      }
+
+      .venn ul {
+        padding-left: 18px;
+        margin: 12px 0 0;
+      }
+
+      .venn li { margin-bottom: 6px; }
+
+      .market-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(20, 40, 29, 0.06);
+        color: var(--muted);
+        width: fit-content;
+      }
+
+      .live-feed {
+        display: grid;
+        gap: 12px;
+      }
+
+      .job-row {
+        display: grid;
+        gap: 10px;
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 245, 238, 0.88)),
+          var(--panel);
+      }
+
+      .job-topline {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .job-title {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .pill {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(20, 40, 29, 0.06);
+        font-size: 0.82rem;
+        color: var(--ink);
+      }
+
+      .placeholder-card {
+        border-style: dashed;
+        background:
+          linear-gradient(135deg, rgba(209, 73, 91, 0.06), rgba(255, 253, 247, 0.95)),
+          var(--panel);
+      }
+
+      .stack-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .stack-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--border);
+      }
+
+      .stack-count {
+        display: inline-grid;
+        place-items: center;
+        min-width: 26px;
+        height: 26px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: color-mix(in oklab, var(--nl) 18%, white);
+        color: var(--ink);
+        font-size: 0.78rem;
+      }
+
+      .empty,
+      .error {
+        padding: 18px;
+        border-radius: 14px;
+      }
+
+      .empty { background: #fbf6ea; }
+      .error { background: #fce8eb; color: #7f1d2d; }
+
+      footer {
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 720px) {
+        .page { padding: 20px 14px 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1>Data Engineer Job Market Comparison</h1>
+        <div class="subhead">
+          <span id="updated">Loading pilot data...</span>
+          <span>Pilot dashboard with live Netherlands and United States sample data</span>
+        </div>
+        <div class="market-note">Pilot mode: both markets are reading directly from the current processed file.</div>
+      </header>
+
+      <section class="controls">
+        <div class="control">
+          <label for="categoryFilter">Tool Category</label>
+          <select id="categoryFilter">
+            <option value="all">All categories</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="seniorityFilter">Seniority</label>
+          <select id="seniorityFilter">
+            <option value="all">All levels</option>
+            <option value="junior">Junior</option>
+            <option value="mid">Mid</option>
+            <option value="senior">Senior</option>
+            <option value="lead">Lead</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="marketFilter">Market</label>
+          <select id="marketFilter">
+            <option value="both">NL and US</option>
+            <option value="NL">NL only</option>
+            <option value="US">US only</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="toolLimitToggle">Tool View</label>
+          <button id="toolLimitToggle" type="button">Show all tools</button>
+        </div>
+      </section>
+
+      <section id="summaryCards" class="card-grid"></section>
+
+      <section class="panel">
+        <h2>Detected Stack</h2>
+        <div id="stackSection" class="stack-cloud"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Live Pilot Roles</h2>
+        <div id="jobsSection" class="live-feed"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Tool Frequency</h2>
+        <div class="chart-wrap">
+          <canvas id="toolsChart"></canvas>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Salary Distribution</h2>
+        <div id="salarySection" class="salary-grid"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Overlap</h2>
+        <div id="vennSection" class="venn"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Trend Over Time</h2>
+        <div id="trendContainer" class="chart-wrap">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </section>
+
+      <footer>
+        <div>Methodology: official government company-list sources, direct ATS scraping where available, and company-level LCA salary fallback for US postings.</div>
+        <div>Sources: IND recognised sponsors register, DOL LCA disclosure data, USCIS H-1B employer data hub, and public company careers pages.</div>
+      </footer>
+    </div>
+
+    <script>
+      const state = {
+        topOnly: true,
+        summary: null,
+        toolsChart: null,
+        trendChart: null,
+      };
+
+      const categoryFilter = document.getElementById("categoryFilter");
+      const seniorityFilter = document.getElementById("seniorityFilter");
+      const marketFilter = document.getElementById("marketFilter");
+      const toolLimitToggle = document.getElementById("toolLimitToggle");
+      const summaryCards = document.getElementById("summaryCards");
+      const stackSection = document.getElementById("stackSection");
+      const jobsSection = document.getElementById("jobsSection");
+      const salarySection = document.getElementById("salarySection");
+      const vennSection = document.getElementById("vennSection");
+      const updated = document.getElementById("updated");
+      const trendContainer = document.getElementById("trendContainer");
+      const TOOL_CATEGORY_MAP = {
+        aws: "cloud",
+        azure: "cloud",
+        gcp: "cloud",
+        "google cloud": "cloud",
+        databricks: "compute",
+        spark: "compute",
+        pyspark: "compute",
+        flink: "compute",
+        hadoop: "compute",
+        emr: "compute",
+        snowflake: "warehouse",
+        redshift: "warehouse",
+        bigquery: "warehouse",
+        synapse: "warehouse",
+        "delta lake": "warehouse",
+        airflow: "orchestration",
+        dbt: "orchestration",
+        prefect: "orchestration",
+        dagster: "orchestration",
+        argo: "orchestration",
+        kafka: "streaming",
+        kinesis: "streaming",
+        "event hubs": "streaming",
+        "pub/sub": "streaming",
+        terraform: "iac",
+        bicep: "iac",
+        cloudformation: "iac",
+        pulumi: "iac",
+        python: "languages",
+        scala: "languages",
+        java: "languages",
+        sql: "languages",
+        typescript: "languages",
+        kubernetes: "devops",
+        docker: "devops",
+        "ci/cd": "devops",
+        "github actions": "devops",
+        avg: "governance",
+        gdpr: "governance",
+        ccpa: "governance",
+        "data vault": "governance",
+        "unity catalog": "governance",
+        purview: "governance",
+      };
+
+      async function fetchJson(candidates) {
+        let lastError = null;
+        for (const candidate of candidates) {
+          try {
+            const response = await fetch(candidate, { cache: "no-store" });
+            if (!response.ok) continue;
+            return await response.json();
+          } catch (error) {
+            lastError = error;
+          }
+        }
+        throw lastError || new Error("Unable to load JSON data");
+      }
+
+      async function loadProcessedRows() {
+        return fetchJson([
+          "../data/processed/2026-04-03.json",
+          "/data/processed/2026-04-03.json",
+          "data/processed/2026-04-03.json",
+        ]);
+      }
+
+      function summarizeRows(rows) {
+        const tools = {};
+        const toolCounts = { NL: {}, US: {} };
+        const rowsByMarket = {
+          NL: rows.filter((row) => row.market === "NL"),
+          US: rows.filter((row) => row.market === "US"),
+        };
+        const activeByMarket = {
+          NL: new Set(),
+          US: new Set(),
+        };
+
+        for (const row of rows) {
+          const market = row.market === "US" ? "US" : "NL";
+          for (const [tool, active] of Object.entries(row.tools || {})) {
+            if (!tools[tool]) {
+              tools[tool] = {
+                category: TOOL_CATEGORY_MAP[tool] || "other",
+                overall: { NL: 0, US: 0 },
+                by_seniority: {},
+              };
+            }
+            if (!tools[tool].by_seniority[row.seniority_level]) {
+              tools[tool].by_seniority[row.seniority_level] = {
+                NL: { count: 0, pct: 0 },
+                US: { count: 0, pct: 0 },
+              };
+            }
+            if (active) {
+              tools[tool].overall[market] += 1;
+              tools[tool].by_seniority[row.seniority_level][market].count += 1;
+              activeByMarket[market].add(tool);
+              toolCounts[market][tool] = (toolCounts[market][tool] || 0) + 1;
+            }
+          }
+        }
+
+        for (const payload of Object.values(tools)) {
+          for (const market of ["NL", "US"]) {
+            const marketRows = rowsByMarket[market];
+            const marketCount = marketRows.length || 1;
+            payload.overall[market] = payload.overall[market] / marketCount;
+            for (const level of Object.keys(payload.by_seniority)) {
+              const levelRows = marketRows.filter((row) => row.seniority_level === level).length || 1;
+              payload.by_seniority[level][market].pct = payload.by_seniority[level][market].count / levelRows;
+            }
+          }
+        }
+
+        const percentile = (values, pct) => {
+          if (!values.length) return null;
+          const index = Math.min(values.length - 1, Math.floor((values.length - 1) * pct));
+          return values[index];
+        };
+        const salaryByMarket = {
+          NL: rowsByMarket.NL.map((row) => row.salary_usd_annual).filter((value) => value != null).sort((a, b) => a - b),
+          US: rowsByMarket.US.map((row) => row.salary_usd_annual).filter((value) => value != null).sort((a, b) => a - b),
+        };
+
+        const companyCountsByMarket = { NL: {}, US: {} };
+        for (const market of ["NL", "US"]) {
+          for (const row of rowsByMarket[market]) {
+            companyCountsByMarket[market][row.company] = (companyCountsByMarket[market][row.company] || 0) + 1;
+          }
+        }
+
+        const topCompanyByMarket = {
+          NL: Object.entries(companyCountsByMarket.NL).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A",
+          US: Object.entries(companyCountsByMarket.US).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A",
+        };
+        const topToolByMarket = {
+          NL: [...activeByMarket.NL].sort((a, b) => (tools[b]?.overall.NL || 0) - (tools[a]?.overall.NL || 0))[0] || "No tool signal yet",
+          US: [...activeByMarket.US].sort((a, b) => (tools[b]?.overall.US || 0) - (tools[a]?.overall.US || 0))[0] || "No tool signal yet",
+        };
+
+        const combinedToolCounts = {};
+        for (const market of ["NL", "US"]) {
+          for (const [tool, count] of Object.entries(toolCounts[market])) {
+            combinedToolCounts[tool] = (combinedToolCounts[tool] || 0) + count;
+          }
+        }
+
+        return {
+          last_updated: "2026-04-03",
+          rows,
+          markets: {
+            NL: {
+              count: rowsByMarket.NL.length,
+              company_count: new Set(rowsByMarket.NL.map((row) => row.company)).size,
+              median_salary_usd: percentile(salaryByMarket.NL, 0.5),
+              top_tool: topToolByMarket.NL,
+              top_company: topCompanyByMarket.NL,
+              active_tool_count: Object.keys(toolCounts.NL).length,
+            },
+            US: {
+              count: rowsByMarket.US.length,
+              company_count: new Set(rowsByMarket.US.map((row) => row.company)).size,
+              median_salary_usd: percentile(salaryByMarket.US, 0.5),
+              top_tool: topToolByMarket.US,
+              top_company: topCompanyByMarket.US,
+              active_tool_count: Object.keys(toolCounts.US).length,
+            },
+          },
+          tool_counts: combinedToolCounts,
+          tools,
+          salary_distribution: {
+            NL: {
+              p25: percentile(salaryByMarket.NL, 0.25),
+              median: percentile(salaryByMarket.NL, 0.5),
+              p75: percentile(salaryByMarket.NL, 0.75),
+              count: salaryByMarket.NL.length,
+            },
+            US: {
+              p25: percentile(salaryByMarket.US, 0.25),
+              median: percentile(salaryByMarket.US, 0.5),
+              p75: percentile(salaryByMarket.US, 0.75),
+              count: salaryByMarket.US.length,
+            },
+            by_seniority: {},
+          },
+          venn: {
+            nl_only: [...activeByMarket.NL].filter((tool) => !activeByMarket.US.has(tool)).sort(),
+            us_only: [...activeByMarket.US].filter((tool) => !activeByMarket.NL.has(tool)).sort(),
+            shared: [...activeByMarket.NL].filter((tool) => activeByMarket.US.has(tool)).sort(),
+          },
+          trends: [],
+        };
+      }
+
+      function formatMoney(value) {
+        if (value == null) return "N/A";
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0,
+        }).format(value);
+      }
+
+      function formatPct(value) {
+        return `${Math.round((value || 0) * 100)}%`;
+      }
+
+      function buildCategoryOptions(summary) {
+        const categories = [...new Set(Object.values(summary.tools).map((tool) => tool.category))].sort();
+        for (const category of categories) {
+          const option = document.createElement("option");
+          option.value = category;
+          option.textContent = category[0].toUpperCase() + category.slice(1);
+          categoryFilter.appendChild(option);
+        }
+      }
+
+      function currentToolEntries() {
+        const category = categoryFilter.value;
+        const seniority = seniorityFilter.value;
+        let entries = Object.entries(state.summary.tools).filter(([, payload]) => {
+          return category === "all" || payload.category === category;
+        });
+
+        entries = entries.map(([tool, payload]) => {
+          if (seniority === "all") {
+            return [tool, payload.overall.NL || 0, payload.overall.US || 0];
+          }
+          return [
+            tool,
+            payload.by_seniority[seniority]?.NL?.pct || 0,
+            payload.by_seniority[seniority]?.US?.pct || 0,
+          ];
+        });
+
+        entries.sort((a, b) => Math.max(b[1], b[2]) - Math.max(a[1], a[2]));
+        if (state.topOnly) entries = entries.slice(0, 10);
+        return entries;
+      }
+
+      function renderSummaryCards() {
+        const markets = state.summary.markets;
+        const cards = [];
+        for (const market of ["NL", "US"]) {
+          if (marketFilter.value !== "both" && marketFilter.value !== market) continue;
+          const payload = markets[market] || {};
+          cards.push(`
+            <article class="card">
+              <div class="eyebrow">${market}</div>
+              <div class="value">${payload.count ?? 0}</div>
+              <div>Live pilot roles</div>
+              <div class="eyebrow" style="margin-top:14px;">Median salary</div>
+              <div>${formatMoney(payload.median_salary_usd)}</div>
+              <div class="eyebrow" style="margin-top:14px;">Companies</div>
+              <div>${payload.company_count ?? 0}</div>
+              <div class="eyebrow" style="margin-top:14px;">Top tool</div>
+              <div>${payload.top_tool || "N/A"}</div>
+              <div class="eyebrow" style="margin-top:14px;">Detected tools</div>
+              <div>${payload.active_tool_count ?? 0}</div>
+              <div class="eyebrow" style="margin-top:14px;">Status</div>
+              <div>Top source company: ${payload.top_company}</div>
+            </article>
+          `);
+        }
+        summaryCards.innerHTML = cards.join("");
+      }
+
+      function renderStackSection() {
+        const rows = currentRows();
+        const marketCounts = {};
+        for (const row of rows) {
+          for (const [tool, active] of Object.entries(row.tools || {})) {
+            if (!active) continue;
+            marketCounts[tool] = (marketCounts[tool] || 0) + 1;
+          }
+        }
+
+        const counts = Object.entries(marketCounts)
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+        if (!counts.length) {
+          stackSection.innerHTML = '<div class="empty">No stack signals have been extracted yet.</div>';
+          return;
+        }
+
+        stackSection.innerHTML = counts.map(([tool, count]) => `
+          <div class="stack-chip">
+            <span>${tool}</span>
+            <span class="stack-count">${count}</span>
+          </div>
+        `).join("");
+      }
+
+      function currentRows() {
+        const seniority = seniorityFilter.value;
+        const market = marketFilter.value;
+        return (state.summary.rows || []).filter((row) => {
+          if (market !== "both" && row.market !== market) return false;
+          if (seniority !== "all" && row.seniority_level !== seniority) return false;
+          const category = categoryFilter.value;
+          if (category === "all") return true;
+          return Object.entries(row.tools || {}).some(([tool, active]) => active && TOOL_CATEGORY_MAP[tool] === category);
+        });
+      }
+
+      function renderJobsSection() {
+        const rows = currentRows();
+        if (!rows.length) {
+          jobsSection.innerHTML = '<div class="empty">No pilot roles match the current filter set.</div>';
+          return;
+        }
+
+        jobsSection.innerHTML = rows.map((row) => {
+          const activeTools = Object.entries(row.tools || {}).filter(([, active]) => active).map(([tool]) => tool);
+          const pills = [
+            row.market,
+            row.seniority_level,
+            row.language,
+            ...(row.remote_ok ? ["remote/hybrid signal"] : []),
+          ].filter(Boolean);
+
+          return `
+            <article class="job-row">
+              <div class="job-topline">
+                <div>
+                  <h3 class="job-title">${row.title}</h3>
+                  <div class="job-meta">
+                    <span>${row.company}</span>
+                    <span>${row.location || "Location not parsed yet"}</span>
+                    <span>${row.posted_date || "Posted date unavailable"}</span>
+                  </div>
+                </div>
+                <a href="${row.job_id}" target="_blank" rel="noreferrer">Open role</a>
+              </div>
+              <div class="pill-row">
+                ${pills.map((pill) => `<span class="pill">${pill}</span>`).join("")}
+                ${activeTools.map((tool) => `<span class="pill">${tool} · ${state.summary.tool_counts?.[tool] || 1}</span>`).join("")}
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      function renderToolsChart() {
+        const ctx = document.getElementById("toolsChart");
+        const entries = currentToolEntries();
+        const labels = entries.map((entry) => entry[0]);
+        const nlData = entries.map((entry) => Math.round(entry[1] * 100));
+        const usData = entries.map((entry) => Math.round(entry[2] * 100));
+
+        if (state.toolsChart) state.toolsChart.destroy();
+        state.toolsChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "NL",
+                data: nlData,
+                backgroundColor: "rgba(28, 124, 84, 0.85)",
+                hidden: marketFilter.value === "US",
+              },
+              {
+                label: "US",
+                data: usData,
+                backgroundColor: "rgba(209, 73, 91, 0.85)",
+                hidden: marketFilter.value === "NL",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: "y",
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label(context) {
+                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                ticks: {
+                  callback(value) {
+                    return `${value}%`;
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      function renderSalarySection() {
+        const markets = ["NL", "US"].filter((market) => marketFilter.value === "both" || marketFilter.value === market);
+        const source = state.summary.salary_distribution;
+        const maxValue = Math.max(...markets.map((market) => source[market]?.p75 || 0), 1);
+
+        salarySection.innerHTML = markets.map((market) => {
+          const stats = source[market] || {};
+          if (!stats.count) {
+            return `
+              <div class="salary-box">
+                <div class="eyebrow">${market}</div>
+                <div class="empty">No usable salary signal has been parsed from the live pilot roles yet.</div>
+              </div>
+            `;
+          }
+
+          const left = ((stats.p25 || 0) / maxValue) * 100;
+          const width = (((stats.p75 || 0) - (stats.p25 || 0)) / maxValue) * 100;
+          return `
+            <div class="salary-box">
+              <div class="eyebrow">${market}</div>
+              <div class="salary-rail">
+                <div class="salary-bar" style="left:${left}%;width:${Math.max(width, 4)}%;background:${market === "NL" ? "var(--nl)" : "var(--us)"};"></div>
+              </div>
+              <div>P25: ${formatMoney(stats.p25)}</div>
+              <div>Median: ${formatMoney(stats.median)}</div>
+              <div>P75: ${formatMoney(stats.p75)}</div>
+              <div>Salary samples: ${stats.count}</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function renderVennSection() {
+        const venn = state.summary.venn;
+        vennSection.innerHTML = [
+          ["NL only", venn.nl_only],
+          ["Shared", venn.shared],
+          ["US only", venn.us_only],
+        ].map(([title, tools]) => `
+          <div class="salary-box">
+            <div class="eyebrow">${title}</div>
+            ${tools.length ? `<ul>${tools.map((tool) => `<li>${tool}</li>`).join("")}</ul>` : '<div class="empty">No tools in this bucket yet.</div>'}
+          </div>
+        `).join("");
+      }
+
+      function renderTrendChart() {
+        trendContainer.innerHTML = '<div class="empty">Trend lines will appear after multiple dated runs. For now, this dashboard is showing a single pilot snapshot across both markets.</div>';
+      }
+
+      function render() {
+        updated.textContent = state.summary.last_updated
+          ? `Pilot dataset date: ${state.summary.last_updated}`
+          : "Pilot dataset date unavailable";
+        renderSummaryCards();
+        renderStackSection();
+        renderJobsSection();
+        renderToolsChart();
+        renderSalarySection();
+        renderVennSection();
+        renderTrendChart();
+      }
+
+      function attachEvents() {
+        [categoryFilter, seniorityFilter, marketFilter].forEach((element) => {
+          element.addEventListener("change", render);
+        });
+        toolLimitToggle.addEventListener("click", () => {
+          state.topOnly = !state.topOnly;
+          toolLimitToggle.textContent = state.topOnly ? "Show all tools" : "Show top 10 only";
+          render();
+        });
+      }
+
+      (async function init() {
+        try {
+          const processedRows = await loadProcessedRows();
+          state.summary = summarizeRows(processedRows);
+          buildCategoryOptions(state.summary);
+          attachEvents();
+          render();
+        } catch (error) {
+          summaryCards.innerHTML = `<div class="error">Failed to load pilot data: ${error.message}</div>`;
+          updated.textContent = "Pilot data unavailable";
+        }
+      })();
+    </script>
+  </body>
+</html>

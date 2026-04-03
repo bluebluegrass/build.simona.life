@@ -1,0 +1,602 @@
+[
+  {
+    "rank": 1,
+    "name": "AMAZON COM SERVICES LLC",
+    "approvals": 48606,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 2,
+    "name": "INFOSYS LIMITED",
+    "approvals": 45323,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 3,
+    "name": "GOOGLE LLC",
+    "approvals": 38147,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 4,
+    "name": "TATA CONSULTANCY SVCS LTD",
+    "approvals": 38144,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 5,
+    "name": "MICROSOFT CORPORATION",
+    "approvals": 37605,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 6,
+    "name": "APPLE INC",
+    "approvals": 27716,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 7,
+    "name": "COGNIZANT TECHNOLOGY SOLUTIONS US",
+    "approvals": 26491,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 8,
+    "name": "AMAZON.COM SERVICES LLC",
+    "approvals": 25088,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 9,
+    "name": "DELOITTE CONSULTING LLP",
+    "approvals": 21672,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 10,
+    "name": "META PLATFORMS INC",
+    "approvals": 21357,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 11,
+    "name": "CAPGEMINI AMERICA INC",
+    "approvals": 19905,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 12,
+    "name": "COGNIZANT TECHNOLOGY SOLUTIONS US CORP",
+    "approvals": 18756,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 13,
+    "name": "HCL AMERICA INC",
+    "approvals": 18277,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 14,
+    "name": "ACCENTURE LLP",
+    "approvals": 16484,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 15,
+    "name": "IBM CORPORATION",
+    "approvals": 15802,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 16,
+    "name": "INTEL CORPORATION",
+    "approvals": 15554,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 17,
+    "name": "AMAZON WEB SERVICES INC",
+    "approvals": 15177,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 18,
+    "name": "WIPRO LIMITED",
+    "approvals": 14989,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 19,
+    "name": "ORACLE AMERICA INC",
+    "approvals": 14285,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 20,
+    "name": "ERNST YOUNG US LLP",
+    "approvals": 13419,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 21,
+    "name": "TATA CONSULTANCY SERVICES LIMITED",
+    "approvals": 12933,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 22,
+    "name": "CISCO SYSTEMS INC",
+    "approvals": 11516,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 23,
+    "name": "JPMORGAN CHASE CO",
+    "approvals": 11263,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 24,
+    "name": "FACEBOOK INC",
+    "approvals": 9711,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 25,
+    "name": "TECH MAHINDRA AMERICAS INC",
+    "approvals": 9490,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 26,
+    "name": "WAL MART ASSOCIATES INC",
+    "approvals": 8986,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 27,
+    "name": "QUALCOMM TECHNOLOGIES INC",
+    "approvals": 7857,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 28,
+    "name": "COMPUNNEL SOFTWARE GROUP INC",
+    "approvals": 7850,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 29,
+    "name": "NVIDIA CORPORATION",
+    "approvals": 7545,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 30,
+    "name": "TESLA INC",
+    "approvals": 7218,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 31,
+    "name": "WAL-MART ASSOCIATES INC",
+    "approvals": 6957,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 32,
+    "name": "FIDELITY INVESTMENTS",
+    "approvals": 6954,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 33,
+    "name": "LTIMINDTREE LIMITED",
+    "approvals": 6343,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 34,
+    "name": "AMAZON DEVELOPMENT CENTER US INC",
+    "approvals": 5983,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 35,
+    "name": "MPHASIS CORPORATION",
+    "approvals": 5910,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 36,
+    "name": "LINKEDIN CORPORATION",
+    "approvals": 5893,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 37,
+    "name": "COGNIZANT TECH SOLUTIONS US CORP",
+    "approvals": 5425,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 38,
+    "name": "JPMORGAN CHASE AND CO",
+    "approvals": 5417,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 39,
+    "name": "SALESFORCE COM INC",
+    "approvals": 5257,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 40,
+    "name": "PAYPAL INC",
+    "approvals": 4907,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 41,
+    "name": "ATOS SYNTEL INC",
+    "approvals": 4871,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 42,
+    "name": "CGI TECHNOLOGIES AND SOLUTIONS INC",
+    "approvals": 4804,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 43,
+    "name": "UBER TECHNOLOGIES INC",
+    "approvals": 4649,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 44,
+    "name": "SALESFORCE INC",
+    "approvals": 4387,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 45,
+    "name": "KFORCE INC",
+    "approvals": 4354,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 46,
+    "name": "INTUIT INC",
+    "approvals": 4329,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 47,
+    "name": "BLOOMBERG LP",
+    "approvals": 4296,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 48,
+    "name": "LARSEN AND TOUBRO INFOTECH LIMITED",
+    "approvals": 4268,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 49,
+    "name": "ADOBE INC",
+    "approvals": 4193,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 50,
+    "name": "CAPITAL ONE SERVICES LLC",
+    "approvals": 4107,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 51,
+    "name": "FORD MOTOR COMPANY",
+    "approvals": 3958,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 52,
+    "name": "HEXAWARE TECHNOLOGIES INC",
+    "approvals": 3950,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 53,
+    "name": "VIRTUSA CORPORATION",
+    "approvals": 3912,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 54,
+    "name": "EBAY INC",
+    "approvals": 3777,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 55,
+    "name": "CUMMINS INC",
+    "approvals": 3695,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 56,
+    "name": "PWC ADVISORY SERVICES LLC",
+    "approvals": 3658,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 57,
+    "name": "BYTEDANCE INC",
+    "approvals": 3655,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 58,
+    "name": "SYNECHRON INC",
+    "approvals": 3582,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 59,
+    "name": "UST GLOBAL INC",
+    "approvals": 3572,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 60,
+    "name": "DELOITTE & TOUCHE LLP",
+    "approvals": 3491,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 61,
+    "name": "RANDSTAD TECHNOLOGIES LLC",
+    "approvals": 3466,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 62,
+    "name": "CITIBANK N A",
+    "approvals": 3456,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 63,
+    "name": "ADVANCED MICRO DEVICES INC",
+    "approvals": 3376,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 64,
+    "name": "SERVICENOW INC",
+    "approvals": 3313,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 65,
+    "name": "COMCAST CABLE COMMUNICATIONS LLC",
+    "approvals": 3287,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 66,
+    "name": "MINDTREE LIMITED",
+    "approvals": 3229,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 67,
+    "name": "OPTUM SERVICES INC",
+    "approvals": 3212,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 68,
+    "name": "MORGAN STANLEY SERVICES GROUP INC",
+    "approvals": 3179,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 69,
+    "name": "THE LELAND STANFORD JR UNIVERSITY",
+    "approvals": 3135,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 70,
+    "name": "VMWARE INC",
+    "approvals": 3049,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 71,
+    "name": "PRICEWATERHOUSECOOPERS LLP",
+    "approvals": 2919,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 72,
+    "name": "RIVIAN AUTOMOTIVE LLC",
+    "approvals": 2892,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 73,
+    "name": "UNIVERSITY OF MICHIGAN",
+    "approvals": 2771,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 74,
+    "name": "CHARTER COMMUNICATIONS INC",
+    "approvals": 2763,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 75,
+    "name": "MCKINSEY COMPANY INC UNITED STATES",
+    "approvals": 2748,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 76,
+    "name": "APPLIED MATERIALS INC",
+    "approvals": 2733,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 77,
+    "name": "PALO ALTO NETWORKS INC",
+    "approvals": 2723,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 78,
+    "name": "CITIBANK NA",
+    "approvals": 2709,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 79,
+    "name": "GOLDMAN SACHS CO LLC",
+    "approvals": 2690,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 80,
+    "name": "EXPEDIA INC",
+    "approvals": 2684,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 81,
+    "name": "KPMG LLP",
+    "approvals": 2680,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 82,
+    "name": "ERNST AND YOUNG U S LLP",
+    "approvals": 2664,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 83,
+    "name": "L T TECHNOLOGY SERVICES LTD",
+    "approvals": 2653,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 84,
+    "name": "BANK OF AMERICA NA",
+    "approvals": 2605,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 85,
+    "name": "BARCLAYS SERVICES CORP",
+    "approvals": 2587,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 86,
+    "name": "US BANK NATIONAL ASSOCIATION",
+    "approvals": 2545,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 87,
+    "name": "MAYO CLINIC",
+    "approvals": 2489,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 88,
+    "name": "AMAZON DATA SERVICES INC",
+    "approvals": 2485,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 89,
+    "name": "AMERICAN EXPRESS TRAVEL RELATED SERVICES COMPANY INC",
+    "approvals": 2400,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 90,
+    "name": "GOLDMAN SACHS SERVICES LLC",
+    "approvals": 2366,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 91,
+    "name": "DOORDASH INC",
+    "approvals": 2318,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 92,
+    "name": "DELOITTE TAX LLP",
+    "approvals": 2290,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 93,
+    "name": "DFS CORPORATE SERVICES LLC",
+    "approvals": 2282,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 94,
+    "name": "MICRON TECHNOLOGY INC",
+    "approvals": 2266,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 95,
+    "name": "FISERV SOLUTIONS LLC",
+    "approvals": 2264,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 96,
+    "name": "HEWLETT PACKARD ENTERPRISE COMPANY",
+    "approvals": 2212,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 97,
+    "name": "AMAZON DEVELOPMENT CENTER U S INC",
+    "approvals": 2170,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 98,
+    "name": "GENERAL MOTORS COMPANY",
+    "approvals": 2160,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 99,
+    "name": "CAREMARK LLC",
+    "approvals": 2135,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  },
+  {
+    "rank": 100,
+    "name": "ADP TECHNOLOGY SERVICES INC",
+    "approvals": 2135,
+    "source_pdf": "Approvals_Receipts (1).pdf"
+  }
+]

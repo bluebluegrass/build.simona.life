@@ -5,3 +5,9 @@
 !.dev.vars.example
 .env*
 !.env.example
+__pycache__/
+DE_JD_compare/data/company_lists/us_lca_raw.csv
+DE_JD_compare/data/company_lists/us_lca_fy2025_q1.xlsx
+DE_JD_compare/data/company_lists/us_lca_fy2025_q2.xlsx
+DE_JD_compare/data/company_lists/us_lca_fy2025_q3.xlsx
+DE_JD_compare/data/company_lists/us_lca_fy2025_q4.xlsx
